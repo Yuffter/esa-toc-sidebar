@@ -1,0 +1,176 @@
+/* ===== 元の目次を隠し、本文を全幅に ===== */
+html.etoc-on .layout-post__right {
+  display: none !important;
+}
+html.etoc-on .layout-post__content {
+  display: block !important;
+  padding-right: calc(var(--etoc-w, 280px) + 16px);
+  transition: padding-right 0.15s ease;
+}
+html.etoc-on.etoc-collapsed .layout-post__content {
+  padding-right: 0;
+}
+html.etoc-on .layout-post__main {
+  width: auto !important;
+  max-width: none !important;
+}
+
+/* ===== サイドパネル ===== */
+.etoc-panel {
+  --etoc-bg: #ffffff;
+  --etoc-fg: #333333;
+  --etoc-muted: #888888;
+  --etoc-border: rgba(0, 0, 0, 0.12);
+  --etoc-hover: rgba(0, 0, 0, 0.05);
+  --etoc-accent: #0a9b94;
+  --etoc-active-bg: rgba(10, 155, 148, 0.1);
+
+  position: fixed;
+  top: 60px;
+  right: 0;
+  bottom: 12px;
+  width: var(--etoc-w, 280px);
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  background: var(--etoc-bg);
+  color: var(--etoc-fg);
+  border: 1px solid var(--etoc-border);
+  border-right: none;
+  border-radius: 8px 0 0 8px;
+  box-shadow: -2px 0 10px rgba(0, 0, 0, 0.08);
+  font-size: 13px;
+  line-height: 1.5;
+  box-sizing: border-box;
+}
+body.user-theme--dark .etoc-panel {
+  --etoc-bg: #1f2326;
+  --etoc-fg: #d8dadc;
+  --etoc-muted: #8a9196;
+  --etoc-border: rgba(255, 255, 255, 0.12);
+  --etoc-hover: rgba(255, 255, 255, 0.06);
+  --etoc-accent: #3cc8c0;
+  --etoc-active-bg: rgba(60, 200, 192, 0.14);
+}
+
+.etoc-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--etoc-border);
+  font-weight: bold;
+  flex: none;
+}
+.etoc-title {
+  flex: 1;
+}
+.etoc-btn {
+  border: none;
+  background: transparent;
+  color: var(--etoc-muted);
+  cursor: pointer;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 14px;
+  line-height: 1;
+}
+.etoc-btn:hover {
+  background: var(--etoc-hover);
+  color: var(--etoc-fg);
+}
+
+.etoc-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 6px 0 12px;
+  overscroll-behavior: contain;
+}
+.etoc-body ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.etoc-body li {
+  margin: 0;
+  padding: 0;
+}
+.etoc-body a {
+  display: block;
+  padding: 3px 12px 3px calc(12px + var(--etoc-indent, 0px));
+  color: var(--etoc-fg);
+  text-decoration: none;
+  border-left: 3px solid transparent;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.etoc-body a:hover {
+  background: var(--etoc-hover);
+}
+.etoc-body a.etoc-active {
+  color: var(--etoc-accent);
+  background: var(--etoc-active-bg);
+  border-left-color: var(--etoc-accent);
+  font-weight: bold;
+}
+.etoc-body .toc__anchor-item-h1 > a { --etoc-indent: 0px; font-weight: bold; }
+.etoc-body .toc__anchor-item-h2 > a { --etoc-indent: 14px; }
+.etoc-body .toc__anchor-item-h3 > a { --etoc-indent: 28px; }
+.etoc-body .toc__anchor-item-h4 > a { --etoc-indent: 42px; color: var(--etoc-muted); }
+.etoc-body .toc__anchor-item-h5 > a { --etoc-indent: 56px; color: var(--etoc-muted); }
+.etoc-body .toc__anchor-item-h6 > a { --etoc-indent: 70px; color: var(--etoc-muted); }
+
+/* 左端ドラッグで幅変更 */
+.etoc-resizer {
+  position: absolute;
+  left: -3px;
+  top: 0;
+  bottom: 0;
+  width: 6px;
+  cursor: ew-resize;
+}
+.etoc-resizer:hover,
+.etoc-panel.etoc-resizing .etoc-resizer {
+  background: var(--etoc-accent);
+  opacity: 0.4;
+}
+
+/* 折りたたみ時 */
+html.etoc-collapsed .etoc-panel {
+  display: none;
+}
+.etoc-reopen {
+  display: none;
+  position: fixed;
+  top: 60px;
+  right: 0;
+  z-index: 1000;
+  padding: 8px 10px;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  border-right: none;
+  border-radius: 8px 0 0 8px;
+  background: #fff;
+  color: #555;
+  cursor: pointer;
+  font-size: 13px;
+  box-shadow: -2px 0 8px rgba(0, 0, 0, 0.08);
+}
+body.user-theme--dark .etoc-reopen {
+  background: #1f2326;
+  color: #d8dadc;
+  border-color: rgba(255, 255, 255, 0.12);
+}
+html.etoc-collapsed .etoc-reopen {
+  display: block;
+}
+
+@media print {
+  .etoc-panel,
+  .etoc-reopen {
+    display: none !important;
+  }
+  html.etoc-on .layout-post__content {
+    padding-right: 0 !important;
+  }
+}

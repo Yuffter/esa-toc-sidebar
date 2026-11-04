@@ -1,0 +1,14 @@
+{
+  "manifest_version": 3,
+  "name": "esa TOC Sidebar",
+  "version": "1.0.0",
+  "description": "esa の記事ページ上部の目次を、右側の固定サイドパネルに表示します。",
+  "content_scripts": [
+    {
+      "matches": ["https://*.esa.io/*"],
+      "js": ["content.js"],
+      "css": ["content.css"],
+      "run_at": "document_idle"
+    }
+  ]
+}
